@@ -1,0 +1,27 @@
+<!-- title -->
+{% set title = "리스트" %}
+
+<!-- 베이스가 되는 html 파일 불러오기  -->
+{% extends "layout/base.html" %}
+
+<!-- 베이스 파일 내부의 content 작성 -->
+{% block content %}
+
+<table class="table table-bordered table-hover" >
+  <tr>
+    <th> 이름 </th>
+    <th> 전화번호 </th>
+    <th> 삭제 </th>
+  </tr>
+  <tr>
+    <td> 김상웅 </td>
+    <td> 010-3770-7063 </td>
+    <td> <a href="#" class="btn btn-danger"> 삭제 </a></td>
+  </tr>
+</table>
+
+<a href="/admin/products/write" class="btn btn-default">
+  추가하기
+</a>
+
+{% endblock%}
