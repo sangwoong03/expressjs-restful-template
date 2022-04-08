@@ -21,17 +21,18 @@
   3. 요청-응답 주기를 종료
   4. 스택 내의 그 다음 미들웨어를 호출
 
-### Morgan
+### **[Morgan]**
 
 ---
 
 - 콘솔에서 사용자가 어떤 url에 접속했는지 확인할 수 있음.
-
-npm install morgan
+- command
+  ```
+  npm install morgan
+  ```
 
 ```javascript
 const logger = require("morgan");
-
 app.use(logger("dev"));
 // ex) GET / admin 304 5.695 ms - -
 
@@ -40,17 +41,16 @@ app.use(logger("common"));
 app.use(logger("tiny"));
 app.use(logger("combined"));
 // 더 자세한 로그 출력
-
 //...
 ```
 
 - express-server의 `use.app` 의 use도 일종의 미들웨어
 
-## 미들웨어 사용
+### **[미들웨어 사용]**
 
 ---
 
-- 미들웨어는 3가지 인자 (req, res, next)를 사용함.
+- 미들웨어는 3가지 인자 (request, response, next)를 사용함.
 - next는 미들웨어 이후 과정을 진행하라는 의미.
 - 여러개의 미들웨어를 한번에 사용할 수 있음.
   - 결과  
@@ -66,3 +66,33 @@ app.use(logger("combined"));
   ```
   - 결과  
     ![미들웨어_app](./middleware_app.png)
+
+### **[body-parser]**
+
+---
+
+```javascript
+// express-server.js
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+```
+
+- 내장 모듈이기 때문에 추가(command)로 설치할 필요가 없음.
+- form 태그의 POST요청 값들을 사용할 수 있음.
+
+  ```javascript
+  // routes/Admin.js
+  router.get("/lists/write", (req, res) => {
+  	res.render("/admin/write.html");
+  });
+
+  // POST
+  router.post("/lists/write", (req, res) => {
+  	res.send(req.body);
+  });
+
+  // form 내부의 name이 req.body 객체의 key 값으로, input.value값은 req.body의 value값으로 설정
+  // ex) req.body = {"name": "sangwoong", "phone-number": "010-3770-7063", "id": "sangwoong03"}
+  ```
