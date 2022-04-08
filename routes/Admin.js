@@ -19,13 +19,16 @@ router.get("/", testMiddleware, testMiddleware2, (req, res) => {
 
 router.get("/lists", (req, res) => {
 	// res.send("admin products"); >> 화면 메시지
-	res.render("admin/lists.html", {
-		message: "USING VIEW ENGINE!!!!!!!!!!!!!!",
-		name: "<h1>sangwoong</h1>",
-	});
+	res.render("admin/lists.html");
+});
+
+router.get("/lists/write", (req, res) => {
+	res.render("admin/write.html");
+});
+
+//POST
+router.post("/lists/write", (req, res) => {
+	console.log(req.body);
 });
 
 module.exports = router; // 작성한 모듈 내보내기
-
-// 라우팅이란??
-// 데이터 통신 간 최적의 경로를 선택하는 과정
