@@ -1,0 +1,23 @@
+{%set title = "회원 등록" %}
+{% extends "layout/base.html" %}
+
+{% block content %}
+  <form action="" method="post">
+    <table class="table table-bordered">
+      <tr>
+        <th> 이름 </th>
+        <td> <input type="text" name="name" class="form-control"></td>
+      </tr>
+      <tr>
+        <th> 전화번호 </th>
+        <td><input type="text" name="phone_number" class="form-control" ></td>
+      </tr>
+      <tr>
+        <th> 아이디 </th>
+        <td><input type="text" name="user-id" class="form-control" ></td>
+      </tr>
+    </table>
+    <button class="btn btn-primary"> 등록하기 </button>
+  </form>
+
+{% endblock%}
