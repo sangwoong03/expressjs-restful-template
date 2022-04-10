@@ -28,7 +28,7 @@ router.get("/lists/write", (req, res) => {
 });
 
 //POST
-router.post("/add", (req, res, next) => {
+router.post("/lists", (req, res, next) => {
 	res.send(`${req.body.name}님 회원정보 저장이 완료되었습니다.`);
 	next(); // 미들웨어로 사용하면서 next(); 추가
 });
