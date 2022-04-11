@@ -1,5 +1,4 @@
 const express = require("express");
-const { Db } = require("mongodb");
 const router = express.Router(); // express 라우터 분리
 // express 라우터를 분리하여 라우터 모듈 작성
 
@@ -15,7 +14,7 @@ const router = express.Router(); // express 라우터 분리
 
 // rotuer "/" url로 이동 >> testMiddleware1, 2를 거치고 >> router res.send 실행
 router.get("/", (req, res) => {
-	res.send("admin 이후 url");
+	res.send("lists 페이지 및 lists/write 페이지로 이동할 수 있습니다.");
 });
 
 router.get("/lists", (req, res) => {
@@ -28,9 +27,13 @@ router.get("/lists/write", (req, res) => {
 });
 
 //POST
-router.post("/lists", (req, res, next) => {
-	res.send(`${req.body.name}님 회원정보 저장이 완료되었습니다.`);
-	next(); // 미들웨어로 사용하면서 next(); 추가
+router.post("/add", (req, res) => {
+	res.redirect("/admin/lists"); // 미들웨어로 사용하면서 next(); 추가
 });
+
+// router.delete("/delete", (req, res, next) => {
+// 	console.log(req.body);
+// 	next();
+// });
 
 module.exports = router; // 작성한 모듈 내보내기
