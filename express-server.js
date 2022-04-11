@@ -35,7 +35,6 @@ MongoClient.connect(
 
 // 라우터 모듈 불러오기
 const admin = require("./routes/Admin");
-const contact = require("./routes/contacts");
 
 nunjucks.configure("template", {
 	autoescape: true,
@@ -65,31 +64,63 @@ app.use((req, res, next) => {
 // }
 
 app.get("/", (req, res) => {
-	res.send("hello express");
+	res.send(
+		"Hello, This is main page of the Node.js and MongoDB tutorial project. You can move to '/admin', '/admin/lists', and '/admin/lists/write' pages",
+	);
 }); // url  (메인 url에서 마지막 / 유무 상관 없음)
 
-app.get("/sangwoong", (req, res) => {
-	res.send("hello sangwoong");
-});
-
 //라우터 모듈 연동하기
+function fetchData(req, res) {
+	db.collection("post")
+		.find()
+		.toArray((err, result) => {
+			res.render("admin/lists.html", { lists: result });
+		});
+}
+app.get("/admin/lists", fetchData);
 app.use("/admin", admin);
-app.use("/contact", contact);
 
 // 라우터 모듈을 미들웨어로 불러오고 다음 실행 함수로 DB저장하기
 // _id 값의 경우 입력하지 않으면 object("문자문자문자~~")와 같은 임의 값 저장 됨.
-app.post("/add", admin, (req, res) => {
-	db.collection("post").insertOne(
-		{
-			이름: req.body.name,
-			전화번호: req.body.phone_number,
-			_id: req.body.user_id,
-		},
-		(err, client) => {
-			console.log("저장완료");
-		},
-	);
-});
+app.post(
+	"/add",
+	(req, res, next) => {
+		db.collection("counter").findOne({ name: "numOfLists" }, (err, result) => {
+			if (err) return console.log("리스트 개수 찾기 실패");
+			let id = result.totalLists;
+
+			db.collection("post").insertOne(
+				{
+					user_name: req.body.name,
+					user_number: req.body.phone_number,
+					user_id: req.body.user_id,
+					_id: id + 1,
+				},
+				(err, client) => {
+					if (err) return console.log("저장 실패");
+					console.log("저장완료");
+					db.collection("counter").updateOne(
+						{ name: "numOfLists" },
+						{ $inc: { totalLists: 1 } },
+						(err, result) => {
+							if (err) return console.log("증가 실패");
+						},
+					);
+				},
+			);
+		});
+		next();
+	},
+	admin,
+);
+
+// app.delete("/delete", admin, (req, res) => {
+// 	req.body._id = parseInt(req.body._id);
+// 	db.collection("post").deleteOne(req.body, (err, result) => {
+// 		if (err) return console.log("삭제 실패");
+// 		console.log("삭제 성공");
+// 	});
+// });
 
 app.use((req, res, next) => {
 	res.status(400).render("common/404.html");
