@@ -28,12 +28,11 @@ router.get("/lists/write", (req, res) => {
 
 //POST
 router.post("/add", (req, res) => {
-	res.redirect("/admin/lists"); // 미들웨어로 사용하면서 next(); 추가
+	res.redirect("/admin/lists");
 });
 
-// router.delete("/delete", (req, res, next) => {
-// 	console.log(req.body);
-// 	next();
-// });
+router.post("/delete", (req, res) => {
+	res.redirect("/admin/lists");
+});
 
 module.exports = router; // 작성한 모듈 내보내기
