@@ -33,13 +33,14 @@ MongoClient.connect(
 	},
 );
 
-// 라우터 모듈 불러오기
-const admin = require("./routes/Admin");
-
 nunjucks.configure("template", {
 	autoescape: true,
 	express: app,
 });
+
+// 라우터 모듈 불러오기
+const admin = require("./routes/Admin");
+const { d } = require("nunjucks/src/filters");
 
 // API middleware setting
 app.use(logger("dev"));
@@ -82,10 +83,10 @@ app.use("/admin", admin);
 
 // 라우터 모듈을 미들웨어로 불러오고 다음 실행 함수로 DB저장하기
 // _id 값의 경우 입력하지 않으면 object("문자문자문자~~")와 같은 임의 값 저장 됨.
-app.post(
-	"/add",
-	(req, res, next) => {
-		db.collection("counter").findOne({ name: "numOfLists" }, (err, result) => {
+function addData(req, res, next) {
+	db.collection("counter").findOne(
+		{ name: "numOfLists" },
+		function (err, result) {
 			if (err) return console.log("리스트 개수 찾기 실패");
 			let id = result.totalLists;
 
@@ -96,31 +97,41 @@ app.post(
 					user_id: req.body.user_id,
 					_id: id + 1,
 				},
-				(err, client) => {
-					if (err) return console.log("저장 실패");
+				function (err, result) {
+					if (err) return console.log("저장 실패"); // 삭제 시 id값을 수정을 안해주면 남아있는 id값과 추가돼야 되는 id값이 겹쳐 에러발생
 					console.log("저장완료");
 					db.collection("counter").updateOne(
 						{ name: "numOfLists" },
 						{ $inc: { totalLists: 1 } },
-						(err, result) => {
+						function (err, result) {
 							if (err) return console.log("증가 실패");
+							console.log("증가 성공");
 						},
 					);
 				},
 			);
-		});
-		next();
-	},
-	admin,
-);
+		},
+	);
+	next();
+}
 
-// app.delete("/delete", admin, (req, res) => {
-// 	req.body._id = parseInt(req.body._id);
-// 	db.collection("post").deleteOne(req.body, (err, result) => {
-// 		if (err) return console.log("삭제 실패");
-// 		console.log("삭제 성공");
-// 	});
-// });
+app.post("/add", addData, admin);
+
+function deleteData(req, res, next) {
+	db.collection("post").deleteOne(req.body, function (err, result) {
+		if (err) return console.log("err!!!!!!!!!!!");
+		console.log("삭제 성공" + result.body);
+		db.collection("counter").updateOne(
+			{ name: "numOfLists" },
+			{ $inc: { totalLists: -1 } },
+			function (err, result) {
+				if (err) return console.log("수정 실패");
+			},
+		);
+	});
+	next();
+}
+app.post("/delete", deleteData, admin);
 
 app.use((req, res, next) => {
 	res.status(400).render("common/404.html");
