@@ -6,6 +6,8 @@ const port = 3000; // port number : ~ 60000
 const nunjucks = require("nunjucks");
 const logger = require("morgan");
 const bodyParser = require("body-parser"); // express의 내장 모듈이기 때문에 따로 설치할 필요가 없음.
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
 
 const MongoClient = require("mongodb").MongoClient; // mongoDB 연동하기
 let db;
@@ -92,7 +94,6 @@ function addData(req, res, next) {
 					user_number: req.body.phone_number,
 					user_id: req.body.user_id,
 					_id: id + 1,
-					type: "inforOfList",
 				},
 				function (err, result) {
 					if (err) return console.log("저장 실패"); // 삭제 시 id값을 수정을 안해주면 남아있는 id값과 추가돼야 되는 id값이 겹쳐 에러발생
@@ -114,38 +115,12 @@ function addData(req, res, next) {
 
 app.post("/add", addData, admin);
 
-function deleteData(req, res, next) {
-	// db.collection("post")
-	// 	.find()
-	// 	.toArray(function (err, result) {
-	// 		let index;
-	// 		index = result.map((item) => item._id);
-	// 		console.log(index);
-	// 		for (let i = 0 ; i < index.length; i++) {
-
-	// 		}
-	db.collection("post").deleteOne(req.body, function (err, result) {
-		if (err) return console.log("err!!!!!!!!!!!");
-		console.log("삭제 성공");
-		db.collection("counter").updateOne(
-			{ name: "numOfLists" },
-			{ $inc: { totalLists: -1 } },
-			function (err, result) {
-				if (err) return console.log("수정 실패");
-			},
-		);
-	});
-	// });
-
-	next();
-}
-app.post(
+app.delete(
 	"/delete",
 	(req, res, next) => {
 		const _id = parseInt(req.body._id);
 		db.collection("post").deleteOne({ _id }, function (err, result) {
-			if (err) return console.log("err!!!!!!!!!!!");
-			console.log("삭제 성공");
+			if (err) return console.log("삭제 실패");
 			db.collection("counter").updateOne(
 				{ name: "numOfLists" },
 				{ $inc: { totalLists: -1 } },
@@ -154,6 +129,32 @@ app.post(
 				},
 			);
 		});
+		next();
+	},
+	admin,
+);
+
+app.get("/edit/:id", (req, res, next) => {
+	const urlId = parseInt(req.params.id);
+	db.collection("post").findOne({ _id: urlId }, (err, result) => {
+		res.render("admin/edit.html", { list: result });
+	});
+});
+
+app.put(
+	"/edit",
+	(req, res, next) => {
+		const editId = parseInt(req.body.edit_id);
+		const user_name = req.body.name;
+		const user_number = req.body.phone_number;
+		const user_id = req.body.user_id;
+		db.collection("post").updateOne(
+			{ _id: editId },
+			{ $set: { user_name, user_number, user_id } },
+			(err, result) => {
+				if (err) throw err;
+			},
+		);
 		next();
 	},
 	admin,
