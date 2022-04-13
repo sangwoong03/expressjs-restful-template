@@ -26,7 +26,7 @@
   <br>  
   <br>
 
-### 📌 Index:
+### 📌 Index (Library and API):
 
 ---
 
@@ -46,6 +46,21 @@
 6. Error handling (template/common/404, 500.html)
 7. Macro (template/macro/link/html, template/layout/base.html)
 8. Static files (uploads/README.md)
+9. REST API (express-server.js, routes/Admin.js)
+10. Method-override (express-server.js, template/admin/lists&edit.html)
+
+```
+npm install method-override
+
+// in main js file
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
+
+// in other html (nunjucks templates)
+<form action="/delete_?method=DELETE" method="POST"></form>
+<form action="/edit_?method=PUT" method="POST"></form>
+```
+
    <br>
    <br>
 
@@ -62,7 +77,7 @@
   1.  읽기 (GET)
   2.  쓰기 (POST)
   3.  수정 (PUT)
-  4.  삭제 (DELETE)
+  4.  삭제 (DELETE) >> AJAX로 삭제요청  
       <br>
       <br>
 
@@ -148,3 +163,31 @@
       ```
 
   8.  실제 파일 적용 >> routes/Admin.js 및 express-server.js 파일 참고. (추후 README 변경!!!!!!!!!!)
+      <br>
+      <br>
+
+### 📌 AJAX:
+
+---
+
+<br>
+
+- 서버에 요청하는 것을 도와주는 Javascript 문법.
+- 페이지 새로고침 없이 서버에 요청하는 것을 도와줌.
+- 기본 문법
+  ```javascript
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    // npm instatll jquery로 대체 가능
+    <script>
+      $.ajax({
+        method: "",
+        url: "",
+        data: "",
+      }).done((result) => {
+        // 요청 성공 시 실행 할 함수
+      }).fail((result) => {
+        // 요청 실패 시 실행 할 함수
+      })
+    </script>
+  ```
+- **nunjucks에서 적용이 안되는 건지 내가 못하는 건지 모르겠는데,,, 다른 방식으로 데이터를 다룸.**
