@@ -26,12 +26,21 @@ router.get("/lists/write", (req, res) => {
 	res.render("admin/write.html");
 });
 
+router.get("/edit/:id", (req, res) => {
+	console.log(req.params);
+	res.render("admin/edit.html");
+});
+
 //POST
 router.post("/add", (req, res) => {
 	res.redirect("/admin/lists");
 });
 
-router.post("/delete", (req, res) => {
+router.delete("/delete", (req, res) => {
+	res.redirect("/admin/lists");
+});
+
+router.put("/edit", (req, res) => {
 	res.redirect("/admin/lists");
 });
 
