@@ -7,50 +7,35 @@
 <!-- 베이스 파일 내부의 content 작성 -->
 {% block content %}
 
-<table class="table table-bordered table-hover" >
-  <tr>
-    <th> 번호 </th>
-    <th> 이름 </th>
-    <th> 전화번호 </th>
-    <th> 아이디 </th>
-    <th> 삭제 </th>
-  </tr>
-  {% for list in lists %}
-    <tr>
-      <td> {{ list._id }} </td>
-      <td> {{ list.user_name }} </td>
-      <td> {{ list.user_number }} </td>
-      <td> {{ list.user_id }} </td>
-      <td> <button class="btn btn-danger delete" data-id= "{{ list._id }}" > 삭제 </button></td>
-    </tr>
-    
-  {% endfor%}
-  
+<table class="table table-bordered table-hover">
+	<tr>
+		<th>번호</th>
+		<th>이름</th>
+		<th>전화번호</th>
+		<th>아이디</th>
+		<th>삭제</th>
+	</tr>
+	{% for list in lists %}
+	<tr>
+		<td>{{ list._id }}</td>
+		<td>{{ list.user_name }}</td>
+		<td>{{ list.user_number }}</td>
+		<td>{{ list.user_id }}</td>
+		<td>
+			<form action="/delete" method="post">
+        <input type="text" name="_id" value="{{list._id}}" style="display:none" >
+        <button class="btn btn-default update" data-id="{{ list._id }}">
+          수정
+        </button>
+        <button class="btn btn-danger delete" type="submit" data-id="{{ list._id }}">
+          삭제
+        </button>
+      </form>
+		</td>
+	</tr>
+	{% endfor%}
 </table>
 
-<a href="/admin/lists/write" class="btn btn-primary">
-  추가하기
-</a>
+<a href="/admin/lists/write" class="btn btn-primary"> 추가하기 </a>
 
 {% endblock %}
-
-<!-- {% block script %}
-  <script>
-    $(".delete").onClick = (e) => {
-      const index = e.target.dataset.id;
-
-      $.ajax({
-        method: "DELETE",
-        url: "/delete",
-        data: {_id : index}
-      }).done((result) => {
-        console.log("aaaaaaaaaaaaaaaaaa")
-        $(this).parent("tr").fadeOut();
-      }).fail((result) => {
-        console.log("bbbbbbbbbbbbbbbbbb")
-      })
-    }
-  </script>
-{% endblock %} -->
-
-
