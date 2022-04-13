@@ -23,7 +23,13 @@
 		<td>{{ list.user_id }}</td>
 		<td>
 			<form action="/delete" method="post">
-        <input type="text" name="_id" value="{{list._id}}" style="display:none" >
+        <!-- 
+          Jquery로 delete class를 가진 버튼을 클릭하는 스크립트가 안먹힘..
+          input elem에 value값을 _id 값으로 지정하여 
+          클릭(...post("/delete")로 submit 요청)할 때 데이터의 _id와 input의 _id값 비교하여 삭제 구현
+         -->
+        <input type="text" name="_id" value="{{list._id}}" style="display:none">
+        
         <button class="btn btn-default update" data-id="{{ list._id }}">
           수정
         </button>
