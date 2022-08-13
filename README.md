@@ -1,12 +1,11 @@
 ## node.js express Stuyding
-
----
+`Node.js` 공부 목적 레포지토리입니다.  
+`코딩애플`의 강의와 제로베이스의 강의를 참조하였습니다.
 
 <br>
 
 ### 📌 why?
 
----
 
 1. daily-planner repository의 로컬스토리지를 통한 로그인 및 일정관리 기능을 서버 통신으로 변경.
 2. portfolio email 전송 기능을 추가하기 위함.
@@ -17,7 +16,6 @@
 
 ### 📌 Ref:
 
----
 
 - 공식 문서 [Express Mdn](https://developer.mozilla.org/ko/docs/Learn/Server-side/Express_Nodejs/Introduction)
 - 깃헙 자료 [parkjunyoung](https://github.com/parkjunyoung/express-online)
@@ -28,7 +26,6 @@
 
 ### 📌 Index (Library and API):
 
----
 
 1. express start (express-server.js)
    ```
@@ -66,10 +63,6 @@ app.use(methodOverride("_method"));
 
 ### 📌 Server:
 
----
-
-<br>
-
 - 요청을 하면 요청한 내용을 보내주는 프로그램.
 - 쉽게 말해 서빙하는 역할을 함.
 - 비유 ) 클라이언트 = 식당 손님 / 서버 = 식당 알바생
@@ -82,10 +75,6 @@ app.use(methodOverride("_method"));
       <br>
 
 ### 📌 REST API:
-
----
-
-<br>
 
 - 웹 개발 시 API (Application Programming Interface)
 
@@ -123,10 +112,6 @@ app.use(methodOverride("_method"));
     <br>
 
 ### 📌 MongoDB:
-
----
-
-<br>
 
 - 관계형 데이터베이스 사용 (MySQL, Oracle ...)
   - 행과 열로 저장됨.
@@ -167,10 +152,6 @@ app.use(methodOverride("_method"));
       <br>
 
 ### 📌 AJAX:
-
----
-
-<br>
 
 - 서버에 요청하는 것을 도와주는 Javascript 문법.
 - 페이지 새로고침 없이 서버에 요청하는 것을 도와줌.
