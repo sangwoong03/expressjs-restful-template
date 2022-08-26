@@ -1,76 +1,40 @@
 ## node.js express Stuyding
-`Node.js` 공부 목적 레포지토리입니다.  
-`코딩애플`의 강의와 제로베이스의 강의를 참조하였습니다.
+
+Tutorial for `Node.Js` from database `MySQL` to `express` for REST API
 
 <br>
 
-### 📌 why?
+### 📌 Index
+- Database: MySQL
+- Language: NodeJs
+- Library: express, nodemon 
+- typeorm
+- REST API
 
-
-1. daily-planner repository의 로컬스토리지를 통한 로그인 및 일정관리 기능을 서버 통신으로 변경.
-2. portfolio email 전송 기능을 추가하기 위함.
-3. Node.Js의 Non-blocking이라는 특징.
-   - 일반적인 언어로 구성된 서버와 다르게 요청 순서를 조정하여 요청 중 중단을 멈추지 않음.
-     <br>  
-     <br>
-
-### 📌 Ref:
-
-
-- 공식 문서 [Express Mdn](https://developer.mozilla.org/ko/docs/Learn/Server-side/Express_Nodejs/Introduction)
-- 깃헙 자료 [parkjunyoung](https://github.com/parkjunyoung/express-online)
-- 블로그 [inu](https://inuplace.tistory.com/643?category=933545)
-- 유튜브 [코딩애플](https://www.youtube.com/channel/UCSLrpBAzr-ROVGHQ5EmxnUg)
   <br>  
   <br>
 
-### 📌 Index (Library and API):
+### 📌 Library & Third-party Module
 
-
-1. express start (express-server.js)
-   ```
-   npm i express
-   node ("main js file name").js
-   ```
-2. nodemon (express-server.js)
-   ```
-   npm i install -g nodemon
-   nodemon -e js, html ("main js file name").js
-   ```
-3. Router (rotues/Admin.js, routes/README.md)
-4. view engine (template/README.md, template/layout/base.html)
-5. Middlewares (middleware/README.md)
-6. Error handling (template/common/404, 500.html)
-7. Macro (template/macro/link/html, template/layout/base.html)
-8. Static files (uploads/README.md)
-9. REST API (express-server.js, routes/Admin.js)
-10. Method-override (express-server.js, template/admin/lists&edit.html)
-
-```
-npm install method-override
-
-// in main js file
-const methodOverride = require("method-override");
-app.use(methodOverride("_method"));
-
-// in other html (nunjucks templates)
-<form action="/delete_?method=DELETE" method="POST"></form>
-<form action="/edit_?method=PUT" method="POST"></form>
-```
+1. MySQL
+2. express
+3. nodemon
+...
 
    <br>
    <br>
 
-### 📌 Server:
+### 📌 Server 서버란?
 
-- 요청을 하면 요청한 내용을 보내주는 프로그램.
-- 쉽게 말해 서빙하는 역할을 함.
+- 요청을 하면 요청한 내용을 보내주는 프로그램을 가리킵니다.
+- 쉽게 말해 식당에서 서빙하는 역할을 하는 것입니다.
 - 비유 ) 클라이언트 = 식당 손님 / 서버 = 식당 알바생
 - HTTP 요청 방식 4가지
-  1.  읽기 (GET)
-  2.  쓰기 (POST)
-  3.  수정 (PUT)
-  4.  삭제 (DELETE) >> AJAX로 삭제요청  
+  1.  읽기 `GET`
+  2.  쓰기 `POST`
+  3.  수정 `PUT`
+  4.  삭제 `DELETE`
+
       <br>
       <br>
 
@@ -111,6 +75,8 @@ app.use(methodOverride("_method"));
     <br>
     <br>
 
+## Database
+
 ### 📌 MongoDB:
 
 - 관계형 데이터베이스 사용 (MySQL, Oracle ...)
@@ -147,28 +113,6 @@ app.use(methodOverride("_method"));
       );
       ```
 
-  8.  실제 파일 적용 >> routes/Admin.js 및 express-server.js 파일 참고. (추후 README 변경!!!!!!!!!!)
-      <br>
-      <br>
+<br>
 
-### 📌 AJAX:
-
-- 서버에 요청하는 것을 도와주는 Javascript 문법.
-- 페이지 새로고침 없이 서버에 요청하는 것을 도와줌.
-- 기본 문법
-  ```javascript
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    // npm instatll jquery로 대체 가능
-    <script>
-      $.ajax({
-        method: "",
-        url: "",
-        data: "",
-      }).done((result) => {
-        // 요청 성공 시 실행 할 함수
-      }).fail((result) => {
-        // 요청 실패 시 실행 할 함수
-      })
-    </script>
-  ```
-- **nunjucks에서 적용이 안되는 건지 내가 못하는 건지 모르겠는데,,, 다른 방식으로 데이터를 다룸.**
+### 📌 MySQL
