@@ -1,4 +1,4 @@
-## node.js express Stuyding
+## Node.Js Tutorial Respository
 
 Tutorial for `Node.Js` from database `MySQL` to `express` for REST API
 
@@ -39,7 +39,7 @@ Tutorial for `Node.Js` from database `MySQL` to `express` for REST API
       <br>
       <br>
 
-### 📌 REST API:
+### 📌 REST API란?:
 
 - 웹 개발 시 API (Application Programming Interface)
 
@@ -117,3 +117,5 @@ Tutorial for `Node.Js` from database `MySQL` to `express` for REST API
 <br>
 
 ### 📌 MySQL
+
+... 준비 중 ... 
