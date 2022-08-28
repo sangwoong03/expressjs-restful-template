@@ -5,8 +5,9 @@ Tutorial for `Node.Js` from database `MySQL` to `express` for REST API
 <br>
 
 ### 📌 Index
+- OS: Window / WSL2
 - Database: MySQL
-- Language: NodeJs
+- Language: Node.Js (v16.13)
 - Library: express, nodemon 
 - typeorm
 - REST API
