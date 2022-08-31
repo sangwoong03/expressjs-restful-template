@@ -167,7 +167,7 @@ mysql> desc users;
 
 <br>
 
-### 1.1 테이블 열 추가 / 삭제
+### 1.1 테이블 열 추가
 
 테이블 생성 후 열(column) 추가 쿼리문은 다음과 같습니다.
 
@@ -195,5 +195,117 @@ mysql> desc users;
 예시)
 
 ```sql
-mysql>   ALTER TABLE users ADD age INT NOT NULL DEFAULT 0
+mysql>   ALTER TABLE users ADD age INT NOT NULL DEFAULT 0;
 ```
+
+<br>
+
+### 1.2 테이블 열 삭제 / 수정
+
+테이블의 열을 삭제하는 쿼리문은 다음과 같습니다.
+
+`ALTER` 쿼리문을 사용할 때는 `DROP` 키워드를 통해 삭제하고 싶은 열을 지정해줄 수 있습니다.
+
+```sql
+mysql> ALTER TABLE users DROP age;
+```
+
+열을 수정하고 싶으면, `MODIFY` 키워드를 통해 수정하려는 열을 지정할 수 있습니다.
+
+```sql
+mysql> ALTER TABLE users MODIFY name user_name varchar(30) NOT NULL;
+```
+<br>
+
+### 1.3 테이블 모든 행 삭제
+
+`DELETE` 쿼리문을 통해서는 삭제해야되는 데이터가 많으면 처리 속도가 늦어집니다.
+
+이럴 때 `TRUNCATE` 쿼리문을 사용할 수 있습니다.
+
+```sql
+mysql> TRUNCATE TABLE users;
+```
+
+<br>
+
+### 2. 데이터 추가
+
+테이블의 데이터를 추가하는 쿼리문은 다음과 같습니다.
+
+기본적으로 많이 사용되는 `INSERT INTO(생략가능) {table_name} {(column_name1, ...column_nameN)} VALUES {(data1, ..., dataN)}` 쿼리문입니다.
+
+```sql
+mysql> INSERT INTO users (name, age) VALUES ("sangwoong", 27);
+```
+
+<br>
+
+### 2-1. 데이터 수정
+
+테이블의 데이터를 수정하는 쿼리문은 다음과 같습니다.
+
+기본적으로 많이 사용되는 `UPDATE {table_name} SET {data} WHERE {condition}` 쿼리문입니다.
+
+```sql
+mysql> UPDATE users SET age=28 WHERE id=1;
+```
+
+<br>
+
+### 2-2. 데이터 삭제
+
+테이블의 데이터를 삭제하는 쿼리문은 다음과 같습니다.
+
+`DELETE` 쿼리문을 사용하여 데이터를 삭제할 수 있습니다.
+
+```sql
+mysql> DELETE FROM users WHERE id=1;
+```
+
+<br>
+
+### 3. 데이터 검색
+
+테이블을 생성하고 데이터를 추가했다면, 이제 그 데이터를 꺼내서 확인해야 하는 단계가 필요합니다.
+
+`SELECT` 쿼리문을 통해 테이블에 저장된 데이터를 확인할 수 있습니다.
+
+와일드카드 `*` 을 사용하면, 지정한 테이블의 모든 데이터를 확인할 수 있습니다.
+
+```sql
+mysql> SELECT * from users;
+```
+
+<br>
+
+### 3.1 특정 열 검색
+
+특정 `열 (column)`을 확인하고 싶다면, 다음과 같이 쿼리문을 작성할 수 있습니다.
+
+여러개의 `열 (column)`은 `, (comma)`로 구분할 수 있습니다.
+
+```sql
+mysql> SELECT name, age FROM users;
+```
+
+<br>
+
+### 3.2 특정 조건 검색
+
+데이터가 가진 조건에 따라 데이터 검색 결과를 얻을 수 있습니다.
+
+우선 예시 쿼리문부터 확인해보겠습니다.
+
+```sql
+mysql> SELECT name, age FROM users WHERE name LIKE "김%" AND age > 20;
+```
+
+`users` 테이블에서 데이터를 가져오는 쿼리문입니다.
+
+`name`과 `age`에 대한 정보를 가져올텐데요.
+
+조건문에는 `name`의 데이터가 `김`으로 시작하는 문자열이며,  
+`age`의 데이터는 20 이상의 숫자에 해당하는 데이터를 반환할 것입니다.
+
+좀 더 자세한 설명은 https://www.w3schools.com/sql/default.asp에서 확인할 수 있습니다.
