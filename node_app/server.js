@@ -1,7 +1,9 @@
-const http = require("http");
 require("dotenv").config();
 
-const { createApp } = require("./app");
+const http = require("http")
+
+const { createApp }  = require("./app");
+const { dataSource } = require("./src/models/dataSource") 
 
 const startServer = async () => {
     const app = createApp();
@@ -16,8 +18,17 @@ const startServer = async () => {
     // });
 
     const server = http.createServer(app);
-    const PORT = process.env.PORT;
+    const PORT   = process.env.PORT;  
 
+    await dataSource.initialize()
+        .then(() => {
+            console.log("Data Source has been initialized");
+        })
+        .catch((err) => {
+            console.error("Error during Data Source initialization", err);
+            database.destroy()
+        })
+        
     server.listen(PORT, () => {
         console.log(`Listening on Port ${PORT}`);
     });
