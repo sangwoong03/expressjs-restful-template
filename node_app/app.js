@@ -1,6 +1,7 @@
 const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
+const cors    = require("cors");
+const morgan  = require("morgan");
+const routes  = require("./src/routes");
 
 const createApp = () => {
     const app = express();
@@ -9,6 +10,7 @@ const createApp = () => {
     // 특정 요청에 대한 예시는 server.js 파일의 주석 확인.
     app.use(morgan('dev'));
     app.use(express.json());
+    app.use(routes);
 
     return app;
 }

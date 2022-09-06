@@ -44,6 +44,7 @@ TYPEORM_LOGGING =데이터베이스 연결 시 로그 사용 여부 // TRUE
 다음과 같이 활용할 수 있습니다.
 
 ```javascript
+const { DataSource } = require("typeorm")
 const dotenv = require("dotenv")
 dotenv.config()
 
