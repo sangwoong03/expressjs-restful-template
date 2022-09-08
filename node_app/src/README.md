@@ -32,13 +32,13 @@ npm isntall mysql
 데이터베이스와 연동하기 위해 여러가지 환경변수가 필요합니다.
 
 ```env
-TYPEORM_CONNECTION = 실제로 연동하려는 데이터베이스 클라이언트 이름 // mysql
-TYPEORM_HOST = 데이터베이스 연결 호스트 // 127.0.0.1
-TYPEORM_USERNAME = 데이터베이스 ID // root
-TYPEORM_PASSWORD = 데이터베이스 PW // myPassword
-TYPEORM_DATABASE = 데이터베이스 이름 // myDB
-TYPEORM_PORT = 데이터베이스 연결 포트 번호 // 3306
-TYPEORM_LOGGING =데이터베이스 연결 시 로그 사용 여부 // TRUE
+DB_CONNECTION = 실제로 연동하려는 데이터베이스 클라이언트 이름 // mysql
+DB_HOST = 데이터베이스 연결 호스트 // 127.0.0.1
+DB_USERNAME = 데이터베이스 ID // root
+DB_PASSWORD = 데이터베이스 PW // myPssword
+DB_DATABASE = 데이터베이스 이름 // myDB
+DB_PORT = 데이터베이스 연결 포트 번호 // 3306
+DB_LOGGING =데이터베이스 연결 시 로그 사용 여부 // TRUE
 ```
 
 다음과 같이 활용할 수 있습니다.
@@ -49,16 +49,17 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 const myDataSource = new DataSource({
-    type: process.env.TYPEORM_CONNECTION,
-    host: process.env.TYPEORM_HOST,
-    port: process.env.TYPEORM_PORT,
-    username: process.env.TYPEORM_USERNAME,
-    password: process.env.TYPEORM_PASSWORD,
-    database: process.env.TYPEORM_DATABASE
+    type    : process.env.DB_CONNECTION,
+    host    : process.env.DB_HOST,
+    port    : process.env.DB_PORT,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 })
 
 myDataSource.initialize()
     .then(() => {
         console.log("Data Source has been initialized!")
     })
+    ...
 ```

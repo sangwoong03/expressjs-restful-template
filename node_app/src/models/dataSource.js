@@ -1,6 +1,6 @@
 require("dotenv").config()
 
-const {DataSource} = require("typeorm")
+const { DataSource } = require("typeorm")
 
 const dataSource = new DataSource({
   type     : process.env.CONNECTION,
@@ -11,6 +11,4 @@ const dataSource = new DataSource({
   database : process.env.DATABASE,
 });
 
-module.exports = {
-  dataSource
-}
+module.exports = { dataSource }

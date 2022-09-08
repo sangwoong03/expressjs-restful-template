@@ -10,6 +10,9 @@ const {
   validatePassword
 } = require("../utils/userValidator");
 
+/*
+    실제 business 로직을 구현
+*/
 const emailCheck = async (email) => {
     validateEmail(email);
 
