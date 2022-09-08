@@ -1,6 +1,11 @@
 const BaseError      = require("../middlewares/baseError");
 const { dataSource } = require("./dataSource");
 
+/*
+    DAO ( Data Access Object)
+    데이터베이스에 접근하기 위한 객체
+    즉 DB와 연결하는데 사용되는 인스턴스
+*/
 const userEmailCheck = async (email) => {
   try {
       return await dataSource.query(
