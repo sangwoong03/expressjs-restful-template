@@ -63,3 +63,98 @@ myDataSource.initialize()
     })
     ...
 ```
+
+<br>
+<br>
+
+## 📌 JWT 
+
+JWT는 `Json Web Token`의 약자로, 클라이언트와 서버 간에 정보를 JSON 객체로 안전하게 전송하기 위한 개방형 표준 (RFC 7519)입니다.
+
+JWT를 이용한 인증 과정은 사용자 측에 사용자의 정보를 관리하는 토큰 기반의 인증 메커니즘입니다.
+
+따라서 세션 정보를 저장하기 위한 세션 스토리지나 별도의 데이터베이스를 사용하지 않아도 되며,  
+서버의 확장성과 멀티 기기 및 도메인 등 다양한 활용 이점을 가지고 있습니다.
+
+다만, 데이터를 숨기는 것이 목적이 아니라, 데이터의 신뢰성을 보장 (전자 서명)하는 것이기 떄문에  
+서명된 JWT와 HTTPS를 사용하는 것을 권장하고 있습니다.
+
+### JWT 설치
+
+```
+npm install jsonwebtoken --save
+```
+
+<br>
+
+### JWT 발급하기 예제
+
+```javascript
+const jwt = require("jsonwebtoken"); // jwt 모듈 import
+
+const payload = { userId = user.userId } // payload에 담을 내용
+const secretKey = "Secret-key is recommended controlling in .env file" // secret key
+
+const jwnToken = jwt.sign(payload, secretkey) // jwt 발행
+```
+<br>
+
+### JWT 확인하기 예제
+
+```javascript
+
+// secretKey 일치 여부 검증을 통해 유저 인가 절차 진행
+const decoded = jwt.verify(jwtToken, secretKey); 
+```
+<br>
+<br>
+
+## 📌 Bcrypt
+
+Bcrypt는 브루스 슈나이어가 설계한 키(key) 방식의 `대칭형` 블록 암호에 기반을 둔 `암호화 해시 함수`입니다.
+
+레인보우 테이블 공격을 방지하기 위해 솔팅과 키 스트레칭을 적용한 대표적인 모듈 중 하나입니다.
+
+### bcrypt 설치
+
+```
+npm install bcrypt --save
+```
+
+<br>
+
+### 암호화 예제
+
+```javascript
+const bcrypt = require("bcrypt") // bcrypt 모듈 import
+
+const password = req.body.password // 요청 body의 password 값 
+const saltRounds = 12; // 
+
+// hash 비밀번호 만들기 hash(arg1, arg2) 메서드 활용
+const makeHash = async (password, saltRounds) => {
+    return await bcrypt.hash(password, saltRoudns)
+}
+
+// main함수
+const exampleBcrypt = async () => {
+    const hashedPw = await makeHash(password, saltRounds);
+}
+```
+
+<br>
+
+### 암호화 비밀번호 검증 예제
+
+```javascript
+
+// compare() 메서드를 활용하여 요청 비밀번호 vs. 저장된 hashedPw 비교
+const checkHash = async (password, hashedPw) => {
+    return await bcrypt.compare(password, hashedPassword)
+}
+
+const exmapleBcrypt = async () => {
+    const hashedPw = await makeHash(password, saltRounds);
+    const result = await checkHash(password, hashedPw)
+}
+```
