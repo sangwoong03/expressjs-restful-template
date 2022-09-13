@@ -22,11 +22,11 @@ CREATE TABLE `posts` (
   `user_id` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `image_url` varchar(2000) NOT NULL,
+  `image_url` varchar(2000) DEFAULT 'base.png',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,5 +90,6 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220913005518'),
   ('20220913005812'),
   ('20220913010933'),
-  ('20220913030248');
+  ('20220913030248'),
+  ('20220913132049');
 UNLOCK TABLES;
