@@ -47,13 +47,13 @@ const getAllPosts = async (req, res) => {
 
 const addPost = async (req, res) => {
 	try {
-		const { title, content, user_id, image_url } = req.body;
+		const { title, content, userId, imageUrl } = req.body;
 
 		if (!title | !content | !user_id | !image_url) {
 			return res.status(400).json({ message: "KEY_ERROR" });
 		}
 
-		await postService.addPost(title, content, user_id, image_url);
+		await postService.addPost(title, content, userId, imageUrl);
 
 		return res.status(201).json({ message: "SUCCESS" });
 	} catch (err) {

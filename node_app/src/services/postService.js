@@ -1,8 +1,5 @@
-// getPostByUserId
-// getPostByPostId
-// getAllPosts
-// addPost
-// deletePost
-// updatePost
+const postDao = require("../models/postDao");
 
-const getPostByUserId = async (userId) => {};
+// const getPostByUserId = async (userId) => {
+//   const
+// };
