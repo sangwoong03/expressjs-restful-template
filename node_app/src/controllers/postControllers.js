@@ -81,13 +81,15 @@ const deletePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
 	try {
+		const { title, content, imageUrl } = req.body;
 		const postId = req.params["post_id"];
+		// const userId = ??? tokenValidator에서 딸려나온 userId
 
 		if (!postId) {
 			return res.status(404).json({ messgae: "INVALID_RESOURCE" });
 		}
 
-		await postService.updatePost(postId);
+		await postService.updatePost(title, content, imageUrl, postId, userId);
 
 		return res.status(201).json({ messgae: "SUCCESS" });
 	} catch (err) {
