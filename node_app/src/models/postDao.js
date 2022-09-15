@@ -1,7 +1,7 @@
 const BaseError = require("../middlewares/baseError");
 const dataSource = require("./dataSource");
 
-const getPostByUserId = async () => {
+const getPostByUserId = async (userId) => {
 	try {
 		return await dataSource.query(
 			`
@@ -10,8 +10,9 @@ const getPostByUserId = async () => {
           title,
           content,
           image_url
-        FROM
-
+        FROM posts p
+				INNER JOIN users u
+				ON u.id = p.user_id
       `,
 		);
 	} catch (err) {
@@ -19,8 +20,24 @@ const getPostByUserId = async () => {
 	}
 };
 
-const getPostByPostId = async () => {
+const getPostByPostId = async (postId) => {
 	try {
+		return await dataSource.query(
+			`
+				SELECT
+					p.id,
+					p.title,
+					p.content,
+					p.image_url,
+					p.user_id userId,
+					p.created_at createdAt,
+					p.updated_at updatedAt,
+					u.email userEmail,
+				FROM posts p
+				INNER JOIN users u
+				ON u.id = p.user_id
+			`,
+		);
 	} catch (err) {
 		throw new BaseError("INVALID_DATA_INPUT", 400);
 	}
@@ -31,13 +48,13 @@ const getAllPosts = async () => {
 		return await dataSource.query(
 			`
         SELECT
-          p.id as postId,
-          p.title as postTitle,
-          p.content as postContent,
-          p.image_url as postImageUrl,
+          p.id postId,
+          p.title postTitle,
+          p.content postContent,
+          p.image_url postImageUrl,
           u.id as userId,
-          u.email as userEmail,
-          u.profile_img_url as userImage
+          u.email userEmail,
+          u.profile_img_url userImage
         FROM posts p
         JOIN users u ON u.id = user_id
       `,
@@ -89,11 +106,10 @@ const updatePost = async (title, content, userId, imageUrl) => {
         UPDATE
           posts
         SET
-          title,
-          content,
-          user_id,
+          title = "${title}",
+          content = "${content}"
           image_url
-        WHERE
+        WHERE 
       `,
 		);
 	} catch (err) {

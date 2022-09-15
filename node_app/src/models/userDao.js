@@ -75,9 +75,9 @@ const userLogin = async (email) => {
 				SELECT
 					id userId,
 					password,
-					email,
+					email
 				FROM users u
-				WHERE u.email = '${email}'
+				WHERE u.email = "${email}"
 			`,
 		);
 		return result;

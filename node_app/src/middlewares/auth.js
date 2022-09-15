@@ -5,9 +5,9 @@ const validateToken = async (req, res, next) => {
 	try {
 		const token = await req.header("Authorization");
 
-		const decodedToken = await jwt.verify(token, secretKey);
+		const decoded = await jwt.verify(token, secretKey);
 
-		const [userId] = decodedToken.sub;
+		req.user = decoded;
 
 		next();
 	} catch (err) {
