@@ -1,12 +1,17 @@
 const postDao = require("../models/postDao");
 
-const getPostByUserId = async () => {};
+// const getPostByUserId = async (userId) => {
+// 	const fetchPostByUserId = await postDao.getPostByUserId(userId);
+// 	return fetchPostByUserId;
+// };
 
-const getPostByPostId = async () => {};
+const getDetailPost = async (postId) => {
+	const fetchPostByPostId = await postDao.getDetailPost(postId);
+	return fetchPostByPostId;
+};
 
 const getAllPosts = async () => {
-	const fetchAllposts = await postDao.getAllPosts();
-	return fetchAllposts;
+	return await postDao.getAllPosts();
 };
 
 const addPost = async (title, content, userId, imageUrl) => {
@@ -31,8 +36,8 @@ const updatePost = async (title, content, userId, imageUrl, postId) => {
 };
 
 module.exports = {
-	getPostByUserId,
-	getPostByPostId,
+	// getPostByUserId,
+	getDetailPost,
 	getAllPosts,
 	addPost,
 	deletePost,

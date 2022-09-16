@@ -1,27 +1,28 @@
 const BaseError = require("../middlewares/baseError");
-const dataSource = require("./dataSource");
+const { dataSource } = require("./dataSource");
 
-const getPostByUserId = async (userId) => {
-	try {
-		return await dataSource.query(
-			`
-        SELECT
-          id,
-          title,
-          content,
-          image_url
-        FROM posts p
-				INNER JOIN users u
-				ON u.id = p.user_id
-      `,
-		);
-	} catch (err) {
-		throw new BaseError("INVALID_DATA_INPUT", 400);
-	}
-};
+// const getPostByUserId = async (userId) => {
+// 	try {
+// 		return await dataSource.query(
+// 			`
+//         SELECT
+//           id,
+//           title,
+//           content,
+//           created_at createdAt,
+//         FROM posts p
+// 				INNER JOIN users u
+// 				ON u.id = p.user_id
+//       `,
+// 		);
+// 	} catch (err) {
+// 		throw new BaseError("INVALID_DATA_INPUT", 400);
+// 	}
+// };
 
-const getPostByPostId = async (postId) => {
+const getDetailPost = async (postId) => {
 	try {
+		console.log(postId);
 		return await dataSource.query(
 			`
 				SELECT
@@ -32,10 +33,10 @@ const getPostByPostId = async (postId) => {
 					p.user_id userId,
 					p.created_at createdAt,
 					p.updated_at updatedAt,
-					u.email userEmail,
-				FROM posts p
-				INNER JOIN users u
-				ON u.id = p.user_id
+					u.id,
+					u.emial
+				FROM users u, posts p
+				WHERE u.id = p.user_id AND p.id = ${postId}
 			`,
 		);
 	} catch (err) {
@@ -47,20 +48,16 @@ const getAllPosts = async () => {
 	try {
 		return await dataSource.query(
 			`
-        SELECT
-          p.id postId,
-          p.title postTitle,
-          p.content postContent,
-          p.image_url postImageUrl,
-          u.id as userId,
-          u.email userEmail,
-          u.profile_img_url userImage
-        FROM posts p
-        JOIN users u ON u.id = user_id
-      `,
+				SELECT
+				 p.title,
+				 p.content,
+				 u.email
+				FROM users u, posts p
+			`,
 		);
 	} catch (err) {
-		throw new BaseError("INVALID_DATA_INPUT", 400);
+		console.log(err);
+		throw new BaseError("NOTHING_POSTS", 400);
 	}
 };
 
@@ -73,9 +70,9 @@ const addPost = async (title, content, userId, image_url) => {
             title,
             content,
             user_id,
-            image_url     
+            image_url
           )
-        VALUE (?,?,?,?)
+        VALUES (?,?,?,?)
       `,
 			[title, content, userId, image_url],
 		);
@@ -89,9 +86,9 @@ const deletePost = async (postId) => {
 		return await dataSource.query(
 			`
         DELETE FROM
-          posts
+          posts p
         WHERE
-         posts.id = ${postId}
+         p.id = ${postId}
       `,
 		);
 	} catch (err) {
@@ -99,18 +96,30 @@ const deletePost = async (postId) => {
 	}
 };
 
-const updatePost = async (title, content, userId, imageUrl) => {
+const updatePost = async (title, content, userId, imageUrl, postId) => {
 	try {
-		return await dataSource.query(
+		await dataSource.query(
 			`
         UPDATE
           posts
         SET
           title = "${title}",
           content = "${content}"
-          image_url
-        WHERE 
+          image_url = "${imageUrl}"
+        WHERE id = "${postId}"
       `,
+		);
+		return await dataSource.query(
+			`
+				SELECT
+					p.title,
+					p.content,
+					p.user_id userid,
+					p.created_at createdAt,
+					p.updated_at updatedAt,
+				FROM users u, posts p
+				WHERE u.id = ${userId} AND p.id = ${postId}
+			`,
 		);
 	} catch (err) {
 		throw new BaseError("INVALID_DATA_INPUT", 400);
@@ -118,8 +127,7 @@ const updatePost = async (title, content, userId, imageUrl) => {
 };
 
 module.exports = {
-	getPostByUserId,
-	getPostByPostId,
+	getDetailPost,
 	getAllPosts,
 	addPost,
 	deletePost,
