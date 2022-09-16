@@ -10,11 +10,12 @@ const userEmailCheck = async (email) => {
 	try {
 		return await dataSource.query(
 			`
-      SELECT EXISTS(
+      	SELECT EXISTS(
           SELECT 
-              email 
+						email 
           FROM users 
-          WHERE email = '${email}')
+          WHERE email = '${email}'
+				)
       `,
 		);
 	} catch (err) {
@@ -26,10 +27,10 @@ const passwordCheck = async (email) => {
 	try {
 		return await dataSource.query(
 			`
-      SELECT 
+      	SELECT 
           password
-      FROM users
-      WHERE email = '${email}'
+      	FROM users
+      	WHERE email = '${email}'
       `,
 		);
 	} catch (err) {
@@ -47,15 +48,17 @@ const createUser = async (
 ) => {
 	try {
 		return await dataSource.query(
-			`INSERT INTO users(
-                email,
-                last_name,
-                first_name,
-                profile_img_url,
-                password,
-                birthday
-            ) VALUES (?, ?, ?, ?, ?, ?);
-            `,
+			`
+				INSERT INTO users(
+					email,
+					last_name,
+					first_name,
+					profile_img_url,
+					password,
+					birthday
+				)
+				VALUES (?, ?, ?, ?, ?, ?);
+			`,
 			[email, lastName, firstName, profileImgUrl, password, birthday],
 		);
 	} catch (err) {
@@ -69,13 +72,13 @@ const userLogin = async (email) => {
 	try {
 		const [result] = await dataSource.query(
 			`
-          SELECT
-              id userId,
-              email,
-              password
-          FROM users u
-          WHERE u.email = '${email}'
-          `,
+				SELECT
+					id userId,
+					password,
+					email
+				FROM users u
+				WHERE u.email = "${email}"
+			`,
 		);
 		return result;
 	} catch (err) {
