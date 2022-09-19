@@ -1,22 +1,5 @@
 const postService = require("../services/postService");
 
-// const getPostByUserId = async (req, res) => {
-// 	try {
-// 		const userId = req.params["user_id"];
-
-// 		if (!userId) {
-// 			return res.status(404).json({ meesage: "INVALID_RESOURCE" });
-// 		}
-
-// 		const data = await postService.getPostByUserid(userId);
-
-// 		return res.status(200).send(data);
-// 	} catch (err) {
-// 		console.log(err);
-// 		return res.status(err.statusCode || 500).json({ messgae: err.messgae });
-// 	}
-// };
-
 const getDetailPost = async (req, res) => {
 	try {
 		const postId = parseInt(req.params["post_id"]);
@@ -49,7 +32,7 @@ const addPost = async (req, res) => {
 	try {
 		const { title, content, userId, imageUrl } = req.body;
 
-		if (!title | !content | !user_id | !imageUrl) {
+		if (!title | !content) {
 			return res.status(400).json({ message: "KEY_ERROR" });
 		}
 
@@ -65,12 +48,13 @@ const addPost = async (req, res) => {
 const deletePost = async (req, res) => {
 	try {
 		const postId = req.params["post_id"];
+		const { userId } = req.body.userId;
 
 		if (!postId) {
 			return res.status(404).json({ message: "INVALID_RESOURCE" });
 		}
 
-		await postService.deletePost(postId);
+		await postService.deletePost(postId, userId);
 
 		return res.status(201).json({ message: "SUCCESS" });
 	} catch (err) {

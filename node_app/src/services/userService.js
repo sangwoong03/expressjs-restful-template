@@ -64,10 +64,7 @@ const signIn = async (email, password) => {
 
 	if (!userPassword) throw new BaseError("INVALID_INFORMATION", 400);
 
-	const accessToken = jwt.sign(
-		{ sub: user.userId, email: user.email },
-		process.env.JWT_SECRET,
-	);
+	const accessToken = jwt.sign({ aud: user.userId }, process.env.JWT_SECRET);
 
 	return accessToken;
 };

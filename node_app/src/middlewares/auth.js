@@ -5,9 +5,10 @@ const validateToken = async (req, res, next) => {
 	try {
 		const token = await req.header("Authorization");
 
-		const decoded = await jwt.verify(token, secretKey);
+		const decodedToken = await jwt.verify(token, secretKey);
+		console.log(decodedToken);
 
-		req.user = decoded;
+		req.body.userId = decodedToken.aud;
 
 		next();
 	} catch (err) {

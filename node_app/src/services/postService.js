@@ -19,8 +19,8 @@ const addPost = async (title, content, userId, imageUrl) => {
 	return posting;
 };
 
-const deletePost = async (postId) => {
-	const postDelete = await postDao.deletePost(postId);
+const deletePost = async (postId, userId) => {
+	const postDelete = await postDao.deletePost(postId, userId);
 	return postDelete;
 };
 

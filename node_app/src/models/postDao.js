@@ -1,25 +1,6 @@
 const BaseError = require("../middlewares/baseError");
 const { dataSource } = require("./dataSource");
 
-// const getPostByUserId = async (userId) => {
-// 	try {
-// 		return await dataSource.query(
-// 			`
-//         SELECT
-//           id,
-//           title,
-//           content,
-//           created_at createdAt,
-//         FROM posts p
-// 				INNER JOIN users u
-// 				ON u.id = p.user_id
-//       `,
-// 		);
-// 	} catch (err) {
-// 		throw new BaseError("INVALID_DATA_INPUT", 400);
-// 	}
-// };
-
 const getDetailPost = async (postId) => {
 	try {
 		console.log(postId);
@@ -81,14 +62,14 @@ const addPost = async (title, content, userId, image_url) => {
 	}
 };
 
-const deletePost = async (postId) => {
+const deletePost = async (postId, userId) => {
 	try {
 		return await dataSource.query(
 			`
         DELETE FROM
           posts p
         WHERE
-         p.id = ${postId}
+         p.id = ${postId} AND p.user_id = ${userId}
       `,
 		);
 	} catch (err) {
@@ -106,7 +87,7 @@ const updatePost = async (title, content, userId, imageUrl, postId) => {
           title = "${title}",
           content = "${content}"
           image_url = "${imageUrl}"
-        WHERE id = "${postId}"
+        WHERE id = "${postId}" AND user_id = ${userId}
       `,
 		);
 		return await dataSource.query(
