@@ -1,6 +1,7 @@
 const BaseError = require("../middlewares/baseError");
 const { dataSource } = require("./dataSource");
 
+// count 추가할 것
 const getDetailPost = async (postId) => {
 	try {
 		console.log(postId);
@@ -11,12 +12,15 @@ const getDetailPost = async (postId) => {
 					p.title,
 					p.content,
 					p.image_url,
-					p.user_id userId,
-					p.created_at createdAt,
-					p.updated_at updatedAt,
-					u.id,
-					u.emial
-				FROM users u, posts p
+					p.user_id user_id,
+					p.created_at created_at,
+					p.updated_at updated_at,
+					u.id as user_id,
+					u.email as user_email,
+					COUNT(*) as like_counts
+				FROM posts p
+				INNER JOIN users u ON u.id = p.user_id
+				INNER JOIN likes l ON l.post_id = p.id 
 				WHERE u.id = p.user_id AND p.id = ${postId}
 			`,
 		);
@@ -30,15 +34,17 @@ const getAllPosts = async () => {
 		return await dataSource.query(
 			`
 				SELECT
+				 p.id,
 				 p.title,
 				 p.content,
-				 u.email
-				FROM users u, posts p
+				 p.created_at,
+				 u.email,
+				FROM posts p, users u
 			`,
 		);
 	} catch (err) {
 		console.log(err);
-		throw new BaseError("NOTHING_POSTS", 400);
+		throw new BaseError("INVALID_DATA", 400);
 	}
 };
 
