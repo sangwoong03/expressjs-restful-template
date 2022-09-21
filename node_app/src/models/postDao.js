@@ -29,17 +29,20 @@ const getDetailPost = async (postId) => {
 	}
 };
 
+// 페이지네이션 구현 필요
 const getAllPosts = async () => {
 	try {
 		return await dataSource.query(
 			`
 				SELECT
-				 p.id,
-				 p.title,
-				 p.content,
-				 p.created_at,
-				 u.email,
-				FROM posts p, users u
+					COUNT(l.id) as like_counts
+					p.id,
+					p.title,
+					p.content,
+					p.created_at,
+					u.email
+				FROM likes l
+				INNER JOIN posts p ON p.id = l.post_id
 			`,
 		);
 	} catch (err) {
