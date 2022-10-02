@@ -309,3 +309,8 @@ mysql> SELECT name, age FROM users WHERE name LIKE "김%" AND age > 20;
 `age`의 데이터는 20 이상의 숫자에 해당하는 데이터를 반환할 것입니다.
 
 좀 더 자세한 설명은 https://www.w3schools.com/sql/default.asp에서 확인할 수 있습니다.
+
+<br>
+<br>
+
+## Advanced SQL
