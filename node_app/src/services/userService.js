@@ -1,76 +1,60 @@
-require("dotenv").config();
+require("dotenv").config()
 
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
-const userDao = require("../models/userDao");
-const BaseError = require("../middlewares/baseError");
-const { validateEmail, validatePassword } = require("../utils/userValidator");
+const userDao = require("../models/userDao")
+const BaseError = require("../middlewares/baseError")
+const { validateEmail, validatePassword } = require("../utils/authValidator")
 
-/*
-    실제 business 로직을 구현
-*/
-const emailCheck = async (email) => {
-	validateEmail(email);
+const getUserByEmail = async (email) => {
+	validateEmail(email)
 
-	const userEmail = await userDao.userEmailCheck(email);
+	const user = await userDao.getUserByEmail(email)
 
-	if (Number(Object.values(userEmail[0])[0]))
-		throw new BaseError("EMAIL_DUPLICATE", 409);
+	if (user) {
+		throw new BaseError("EMAIL_DUPLICATED", 409)
+	} else {
+		throw new BaseError("EMAIL_NOT_EXISTS", 200)
+	}
+}
 
-	if (!Number(Object.values(userEmail[0])[0]))
-		throw new BaseError("EMAIL_NOT_EXISTS", 200);
-};
+const signUp = async (email, name, profileImage, password, birthdate) => {
+	validateEmail(email)
+	validatePassword(password)
 
-const signUp = async (
-	email,
-	lastName,
-	firstName,
-	profileImgUrl,
-	password,
-	birthday,
-) => {
-	validateEmail(email);
-	validatePassword(password);
+	const user = await userDao.getUserByEmail(email)
 
-	const userEmail = await userDao.userEmailCheck(email);
+	if (user) {
+		throw new BaseError("USER_ALREADY_EXISTS", 400)
+	}
 
-	if (Number(Object.values(userEmail[0])[0]))
-		throw new BaseError("DUPLICATED_EMAIL_INFO", 400);
+	const hashedPassword = await bcrypt.hash(password, 10)
 
-	const hashedPassword = await bcrypt.hash(password, 10);
-	const createUser = await userDao.createUser(
-		email,
-		lastName,
-		firstName,
-		profileImgUrl,
-		hashedPassword,
-		birthday,
-	);
-	return createUser;
+	return await userDao.createUser(email, name, profileImage, hashedPassword, birthdate)
 };
 
 const signIn = async (email, password) => {
-	const user = await userDao.userLogin(email);
+	validateEmail(email)
+	validatePassword(password)
 
-	if (!Number(Object.values(user)[0]))
-		throw new BaseError("INVALID_INFORMATION", 400);
+	const user = await userDao.getUserByEmail(email)
 
-	const passwordCheck = await userDao.passwordCheck(email);
-	const userPassword = await bcrypt.compare(
-		password,
-		passwordCheck[0].password,
-	);
+	if (!user) {
+		throw new BaseError("INVALID_USER_INFORMATION", 400)
+	}
+	
+	const userPassword = await bcrypt.compare(password, user.password)
 
-	if (!userPassword) throw new BaseError("INVALID_INFORMATION", 400);
+	if (!userPassword) throw new BaseError("INVALID_USER_INFORMATION", 400)
 
-	const accessToken = jwt.sign({ aud: user.userId }, process.env.JWT_SECRET);
+	const accessToken = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET)
 
 	return accessToken;
 };
 
 module.exports = {
-	emailCheck,
+	getUserByEmail,
 	signUp,
 	signIn,
 };
