@@ -1,42 +1,38 @@
-const userService = require("../services/userService");
-const BaseError   = require("../middlewares/baseError");
-
-/*
-  요청에 대한 json data 분석을 하지 않음 (business 로직이 아니다)
-*/
-
-
-const emailCheck = async (req, res) => {
-  const { email } = req.body;
-
-  if (!email) throw new BaseError("KEY_ERROR", 400);
-
-  await userService.emailCheck(email);
-
-  res.status(201).json({ message: email });
-};
+const userService = require("../services/userService")
+const BaseError   = require("../middlewares/baseError")
 
 const signUp = async (req, res) => {
-  const { email, lastName, firstName, profileImgUrl, password, birthday } = req.body;
-
-  if (!email || !password || !firstName || !lastName || !birthday)
-      throw new BaseError("KEY_ERROR", 400);
+  const { email, name, profileImage, password, birthdate } = req.body
+  
+  if (!email || !password || !name || !profileImage || !birthdate){
+    throw new BaseError("KEY_ERROR", 400)
+  }
       
-  await userService.signUp(email, firstName, lastName, profileImgUrl, password, birthday);
+  await userService.signUp(email, name, profileImage, password, birthdate)
 
-  res.status(201).json({ message: "SUCCESS" });
-};
+  return res.status(201).json({ message: "SUCCESS" })
+}
 
 const signIn = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body
 
-  const TOKEN = await userService.signIn(email, password);
+  if ( !email || !password ) {
+    throw new BaseError("KEY_ERROR", 400)
+  }
+  
+  const user = await userService.getUserByEmail(email)
 
-  res.status(200).json({ token: TOKEN });
+  if ( !user ) {
+    throw new BaseError("INVALID_USER", 401)
+  }
+
+  const TOKEN = await userService.signIn(email, password)
+
+  return res.status(200).json({ token: TOKEN })
 };
 
 module.exports = {
   emailCheck,
   signUp,
   signIn
-};
+}
