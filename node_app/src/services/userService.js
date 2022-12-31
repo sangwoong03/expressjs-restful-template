@@ -10,13 +10,7 @@ const { validateEmail, validatePassword } = require("../utils/authValidator")
 const getUserByEmail = async (email) => {
 	validateEmail(email)
 
-	const user = await userDao.getUserByEmail(email)
-
-	if (user) {
-		throw new BaseError("EMAIL_DUPLICATED", 409)
-	} else {
-		throw new BaseError("EMAIL_NOT_EXISTS", 200)
-	}
+	return await userDao.getUserByEmail(email)
 }
 
 const signUp = async (email, name, profileImage, password, birthdate) => {
@@ -44,7 +38,7 @@ const signIn = async (email, password) => {
 		throw new BaseError("INVALID_USER_INFORMATION", 400)
 	}
 	
-	const userPassword = await bcrypt.compare(password, user.password)
+	const userPassword = await bcrypt.compare(password, user.password.toString())
 
 	if (!userPassword) throw new BaseError("INVALID_USER_INFORMATION", 400)
 

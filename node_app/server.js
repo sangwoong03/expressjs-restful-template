@@ -1,16 +1,17 @@
 require("dotenv").config()
 
 const { createApp }  = require("./app")
-const { dataSource } = require("./src/models/dataSource")
+const { database } = require("./src/models/database")
+
+const app = createApp()
 
 const startServer = async () => {
-  const app = createApp()
 
   app.get("/ping", (req, res) => {
     res.json({ message: "pong" })
   })
 
-  await dataSource.initialize()
+  await database.initialize()
 		.then(() => {
       console.log("SUCCESSED_INITAILIZING_DATABASE");
     })

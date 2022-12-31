@@ -4,7 +4,7 @@ const BaseError   = require("../middlewares/baseError")
 const signUp = async (req, res) => {
   const { email, name, profileImage, password, birthdate } = req.body
   
-  if (!email || !password || !name || !profileImage || !birthdate){
+  if (!email || !password || !name || !birthdate){
     throw new BaseError("KEY_ERROR", 400)
   }
       
@@ -32,7 +32,6 @@ const signIn = async (req, res) => {
 };
 
 module.exports = {
-  emailCheck,
   signUp,
   signIn
 }
