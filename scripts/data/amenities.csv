@@ -1,0 +1,22 @@
+id,name,amenity_type_id
+1,Wifi,5
+2,Self check-in,7
+3,Hot tub,1
+4,Dryer,2
+5,Heating,3
+6,Indoor fireplace,3
+7,Breakfast,6
+8,EV charger,7
+9,Iron,2
+10,Waterfront,7
+11,Carbon monoxide alarm,4
+12,Kitchen,6
+13,Pool,7
+14,Washer,2
+15,Air conditioning,3
+16,Dedicated workspace,5
+17,Gym,7
+18,Free parking,7
+19,Hair dryer,1
+20,High chair,2
+21,Smoke alarm,4
