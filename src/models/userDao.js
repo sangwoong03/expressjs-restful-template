@@ -11,9 +11,9 @@ const getUserByEmail = async (email) => {
 			birthdate
 		FROM users
 		WHERE email = ?
-	`, [email])
+	`, [email]);
 
-	return result
+	return result;
 }
 
 const createUser = async (email, name, profileImage, hashedPassword, birthdate) => {
@@ -26,13 +26,13 @@ const createUser = async (email, name, profileImage, hashedPassword, birthdate) 
 			birthdate
 		)
 		VALUES (?, ?, ?, ?, ?)
-	`, [email, name, profileImage, hashedPassword, birthdate])
+	`, [email, name, profileImage, hashedPassword, birthdate]);
 
-	return result.insertId
+	return result.insertId;
 };
 
 
 module.exports = {
 	getUserByEmail,
 	createUser
-}
+};
